@@ -22,17 +22,10 @@ if uploaded_files:
 
     # Loop through each uploaded Excel file
     for file in uploaded_files:
-        st.write(f"Processing file: {file.name}")
         excel_data = pd.ExcelFile(file)
         
         for sheet_name in excel_data.sheet_names:
-            st.write(f"Processing sheet: {sheet_name}")
-            
             combined_sheet_name = f"{os.path.splitext(file.name)[0]}_{sheet_name}"[:31]
-            
-            # Truncate the sheet name if it's too long
-            if len(combined_sheet_name) > 31:
-                combined_sheet_name = combined_sheet_name[:31]
             
             df = excel_data.parse(sheet_name)
             df.to_excel(writer, sheet_name=combined_sheet_name, index=False)
